@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+
+{{def display_link(item_id, type, ref):
+   return URL(c='public', f='display', args=['crt',item_id])
+   pass
+}}
+{{=SQLTABLE(rows, headers="labels", linkto=display_link)}}
+

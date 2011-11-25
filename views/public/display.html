@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+
+<div class='ez-wr'>
+
+  <div class='ez-box'>
+    {{=H1(title)}}
+  </div>
+
+  {{=DIV(content,_class='content-display ez-box')}}
+
+  <div class="ez-box" style='float: right;margin-top: 1em'>
+    {{=A(T('OK'), _class='button', _href=URL('index.html'))}}
+  </div>
+</div>

@@ -1,0 +1,35 @@
+{{response.files.append(URL('static','skeleton/javascripts/tabs.js'))}}
+{{extend 'layout.html'}}
+
+<ul class='scelte'>
+</ul>
+
+<ul class="tabs">
+  <li>
+    {{=A(T('Info'), _class='active', _href='#ca-info')}}
+  </li>
+  <li>
+    {{=A(T('Actions'), _href='#actions')}}
+  </li>
+</ul> 
+
+
+<ul class='tabs-content'>
+  <li id='ca-info' class='active'>
+    <ul>
+      <li>
+	{{=A(T('Get CA certificate'), _href=URL('get_ca_cert'), _class='button')}}
+      </li>
+      <li>
+	{{=A(T('Get CA certificate revocation list'), _href=URL('get_ca_crl'), _class='button')}}
+      </li>
+    </ul>
+  </li>
+  <li id='actions'>
+    <ul>
+      <li>
+	{{=A('Richiedi un nuovo certificato', _href=URL('create_csr.html'), _class='button')}}
+      </li>
+    </ul>
+  </li>
+</ul>

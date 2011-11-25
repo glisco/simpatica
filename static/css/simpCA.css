@@ -1,0 +1,9 @@
+div.content-display {
+    border: medium inset;
+    display: block;
+    font-family: monospace;
+    font-style: normal;
+    padding: 4px;
+    white-space: pre;
+
+}

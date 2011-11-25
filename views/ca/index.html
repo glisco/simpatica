@@ -1,0 +1,49 @@
+{{response.files.append(URL('static','skeleton/javascripts/tabs.js'))}}
+{{extend 'layout.html'}}
+
+<ul class="tabs">
+  <li>
+    {{=A(T('Request and Certificates'), _href='#req-cert', _class='active')}}
+  </li>
+  <li>
+    {{=A(T('CA setup'), _href='#ca-setup')}}
+  </li>
+</ul> 
+
+<ul class='tabs-content'>
+  <li  id='req-cert' class='active'>
+    <ul>
+      <li>
+	{{=A(T('List pending requests'), _href=URL('list_requests'), _class='button')}}
+      </li>
+      <li>
+	{{=A(T('List signed certificates'), _href=URL('list_certs'), _class='button')}}
+      </li>
+    </ul>
+  </li>
+  <li id='ca-setup' >
+    <ul>
+      <li>
+	{{if ca_key_file_exists():}}
+	  {{=A(T('Create CA private key'), _href='#', _onclick='jQuery(".flash").html("%s").show("slow");return true' % CA_KEY_FILE_EXISTS_MSG, _class='button')}}
+	{{else:}}
+	  {{=A(T('Create CA private key'), _href=URL('create_ca_key'), _class='button')}}
+	{{pass}}
+      </li>
+      <li>
+	{{if ca_csr_file_exists():}}
+	  	  {{=A(T('Create CA certificate request'), _href='#', _class='button', _onclick='jQuery(".flash").html("%s").show("slow");return false' % CA_CSR_FILE_EXISTS_MSG)}}
+	{{else:}}
+	  {{=A(T('Create CA certificate request'), _href=URL('create_ca_csr'), _class='button')}}
+	{{pass}}
+      </li>
+      <li>
+	{{if ca_crt_file_exists():}}
+	  	  {{=A(T('Create CA self signed certificate'), _href='#', _class='button', _onclick='jQuery(".flash").html("%s").show("slow");return true' % CA_CRT_FILE_EXISTS_MSG)}}
+	{{else:}}
+	  {{=A(T('Create CA self signed certificate'), _href=URL('create_self_signed_cert'), _class='button')}}
+	{{pass}}
+      </li>
+    </ul>
+  <li>
+</ul>
