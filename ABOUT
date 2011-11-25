@@ -1,2 +1,12 @@
-Write something about this app.
-Developed with web2py.
+=simpati*CA*=
+
+This is a minimalistic PKI application.
+
+Requires: 
+  * web2py
+  * pyopenssl
+  * !M2Crypto
+
+The optimal target is a personal CA.
+
+Developed with Web2Py http://web2py.com.

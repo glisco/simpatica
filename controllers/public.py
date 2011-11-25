@@ -29,13 +29,13 @@ def create_csr():
         Field('bitnum','integer',
               requires=IS_IN_SET([2048,4096,8192]),
               notnull=True,
-              label=T('Lunghezza della chiave in bits')),
+              label=T('Key length in bits')),
         Field('password','password',
               requires=IS_STRONG(min=8, upper=1, special=1),
               label=T('Password')),
         Field('password_again','password',
               requires=IS_EQUAL_TO(request.vars.password),
-              label=T('Verifica Password')))
+              label=T('Password verification')))
 
     csr_data = form.vars
     
@@ -52,13 +52,13 @@ def display():
         rec = db.ca_user_cert[record_id]
         content = rec.certificate_request
         req = X509.load_request_string(content)
-        title=XML(T('Richiesta Certificato per  %s',  PRE(req.get_subject())))
+        title=XML(T('Certificate Request for  %s',  PRE(req.get_subject())))
 
     elif item=='crt' and record_id:
         rec = db.ca_user_cert[record_id]
         content = rec.certificate
         cert = X509.load_cert_string(content)
-        title=XML(T('Certificato di  %s',  PRE(cert.get_subject())))
+        title=XML(T('Certificate owned by %s',  PRE(cert.get_subject())))
     return dict(content=content, title=title)
 
 
@@ -78,7 +78,7 @@ def pkcs12_export():
     pkey_pem = r.ca_user_data.key_pem
     ca_cert_pem = open(ca_crt_path, 'r').read()
     
-    form = SQLFORM.factory(Field('password','password', label=T('Password chiave privata'), requires=IS_RSA_PASS(pkey_pem_string=pkey_pem)),)
+    form = SQLFORM.factory(Field('password','password', label=T('Private key password'), requires=IS_RSA_PASS(pkey_pem_string=pkey_pem)),)
 
     if form.process().accepted:
         pkey = crypto.load_privatekey(crypto.FILETYPE_PEM, pkey_pem, form.vars.password)
@@ -150,6 +150,6 @@ def get_ca_crl():
     """
     Select all certificates that are not valid and make a big pem
     """
-
+    ###TODO
     
     return

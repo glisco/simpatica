@@ -53,34 +53,34 @@ def display():
             ca_key_file = open(ca_key_path, 'r')
             content = ca_key_file.read()
         except IOError, e:
-            content = T('Non è possibile accedere al file: %s', ca_key_file)
-            response.flash = T('Errore nella lettura della chiave')
+            content = T('File %s cannot be opened.', ca_key_file)
+            response.flash = T('Error reading key.')
         finally:
             if ca_key_file:
                 ca_key_file.close()
                 
     elif item == 'csr':
         ca_csr_file = None
-        title = T('Richiesta certificato della CA')
+        title = T('CA Certificate Request')
         try:
             ca_csr_file = open(ca_csr_path, 'r')
             content = ca_csr_file.read()
         except IOError, e:
-            content = T('Non è possibile accedere al file: %s', ca_csr_path)
-            response.flash = T('Errore nella lettura della richiesta')
+            content = T('File %s cannot be opened.', ca_csr_path)
+            response.flash = T('Error reading request.')
         finally:
             if ca_csr_file:
                 ca_csr_file.close()
 
     elif item == 'crt':
         ca_crt_file = None
-        title = T('Certificato della CA (self signed cert)')
+        title = T('CA certificate (self signed cert)')
         try:
             ca_crt_file = open(ca_crt_path, 'r')
             content = ca_crt_file.read()
         except IOError, e:
-            content = T('Non è possibile accedere al file: %s', ca_crt_path)
-            response.flash = T('Errore nella lettura della richiesta')
+            content = T('File %s cannot be opened.', ca_crt_path)
+            response.flash = T('Error reading certificate.')
         finally:
             if ca_crt_file:
                 ca_crt_file.close()
@@ -96,15 +96,15 @@ def create_ca_csr():
 
     errmsg=None
     form = SQLFORM.factory(
-        Field('password', 'password', label='Passowrd chiave privata'))
+        Field('password', 'password', label=T('Private key password')))
 
     if form.process().accepted:
         try:
             ca_key_file = open(ca_key_path, 'r')
             key = ca_key_file.read()
         except IOError, e:
-            errmsg = T('Non è possibile accedere al file: %s', ca_key_file)
-            response.flash = T('Errore nella lettura della chiave')
+            errmsg = T('File %s cannot be opened.', ca_key_file)
+            response.flash = T('Error reading key.')
             return dict(form=None, errmsg=errmsg)
         finally:
             if ca_key_file:
@@ -116,8 +116,8 @@ def create_ca_csr():
         try:
             csr.save(ca_csr_path)
         except IOError, e:
-            errmsg = T('Non è possibile accedere al file: %s', csr_file)
-            response.flash = T('Errore nella scrittura della richiesta di certificato')
+            errmsg = T('File %s cannot be opened.', csr_file)
+            response.flash = T('Error writing certificate request')
             return dict(form=None, errmsg=errmsg)
 
 
@@ -135,15 +135,15 @@ def create_self_signed_cert():
 
     errmsg=None
     form = SQLFORM.factory(
-        Field('password', 'password', label='Passowrd chiave privata'))
+        Field('password', 'password', label=T('Private key password')))
 
     if form.process().accepted:
         try:
             ca_key_file = open(ca_key_path, 'r')
             key = ca_key_file.read()
         except IOError, e:
-            errmsg = T('Non è possibile accedere al file: %s', ca_key_file)
-            response.flash = T('Errore nella lettura della chiave')
+            errmsg = T('File %s cannot be opened.', ca_key_file)
+            response.flash = T('Error reading key.')
             return dict(form=None, errmsg=errmsg)
         finally:
             if ca_key_file:
@@ -156,8 +156,8 @@ def create_self_signed_cert():
 
             csr = csr_file.read()
         except IOError, e:
-            errmsg = T('Non è possibile accedere al file: %s', csr_file)
-            response.flash = T('Errore nella scrittura della richiesta di certificato')
+            errmsg = T('File %s cannot be opened.', csr_file)
+            response.flash = T('Error reading request.')
             return dict(form=None, errmsg=errmsg)
 
         finally:
@@ -176,8 +176,8 @@ def create_self_signed_cert():
         try:
             crt.save(ca_crt_path)
         except IOError, e:
-            errmsg = T('Non è possibile accedere al file: %s', crt_file)
-            response.flash = T('Errore nella scrittura della richiesta di certificato')
+            errmsg = T('File %s cannot be opened.', crt_file)
+            response.flash = T('Error writing certificate request')
             return dict(form=None, errmsg=errmsg)
 
 
