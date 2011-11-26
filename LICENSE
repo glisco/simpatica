@@ -5,6 +5,8 @@ Copyright (C) 2011 Glisco s.r.l. (http://www.glisco.it)
 simpatiCA is released under GPL licence version 3. See below or
 http://www.gnu.org/licenses/gpl-3.0-standalone.html.
 
+The file module/certgen.py is a modified version of certgen.py in the examples directory of pyopenssl.  The original file is licensed under the Apache License version 2.0.
+
 -----------------------------------------------------------------------------
 
                     GNU GENERAL PUBLIC LICENSE
