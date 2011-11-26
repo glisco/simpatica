@@ -1,25 +1,34 @@
 # -*- coding: utf-8 -*-
-# this file is released under public domain and you can use without limitations
+#
+# simpatiCA - a simple PKI
+#
+# Copyright (C) 2011 by Michele Comitini <michele.comitini _at_ glisco.it>
+# Copyright (C) 2011 by Glisco s.r.l. <info _at_ glisco.it>
+#
+#     This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# see LICENSE for licensing info.
 
-#########################################################################
-## This scaffolding model makes your app work on Google App Engine too
-#########################################################################
 
-db = DAL('sqlite://storage.sqlite')       # if not, use SQLite or other DB
+
+
+db = DAL('sqlite://storage.sqlite')
 
 # by default give a view/generic.extension to all actions from localhost
 # none otherwise. a pattern can be 'controller/function.extension'
 response.generic_patterns = ['*'] if request.is_local else []
 
-#########################################################################
-## Here is sample code if you need for
-## - email capabilities
-## - authentication (registration, login, logout, ... )
-## - authorization (role based authorization)
-## - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)
-## - crud actions
-## (more options discussed in gluon/tools.py)
-#########################################################################
 
 from gluon.tools import Mail, Auth, Crud, Service, PluginManager, prettydate
 mail = Mail()                                  # mailer
@@ -41,35 +50,6 @@ auth.messages.verify_email = 'Click on the link http://'+request.env.http_host+U
 auth.settings.reset_password_requires_verification = True
 auth.messages.reset_password = 'Click on the link http://'+request.env.http_host+URL('default','user',args=['reset_password'])+'/%(key)s to reset your password'
 
-#########################################################################
-## If you need to use OpenID, Facebook, MySpace, Twitter, Linkedin, etc.
-## register with janrain.com, uncomment and customize following
-# from gluon.contrib.login_methods.rpx_account import RPXAccount
-# auth.settings.actions_disabled = \
-#    ['register','change_password','request_reset_password']
-# auth.settings.login_form = RPXAccount(request, api_key='...',domain='...',
-#    url = "http://localhost:8000/%s/default/user/login" % request.application)
-## other login methods are in gluon/contrib/login_methods
-#########################################################################
-
-crud.settings.auth = None        # =auth to enforce authorization on crud
-
-#########################################################################
-## Define your tables below (or better in another model file) for example
-##
-## >>> db.define_table('mytable',Field('myfield','string'))
-##
-## Fields can be 'string','text','password','integer','double','boolean'
-##       'date','time','datetime','blob','upload', 'reference TABLENAME'
-## There is an implicit 'id integer autoincrement' field
-## Consult manual for more options, validators, etc.
-##
-## More API examples for controllers:
-##
-## >>> db.mytable.insert(myfield='value')
-## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
-## >>> for row in rows: print row.id, row.myfield
-#########################################################################
 
 mail_message="""E' arrivata una richiesta per un certificato X509 da parte dell'utente: %(cn)s"""
 

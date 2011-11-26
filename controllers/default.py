@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # see LICENSE for licensing info.
-# this file is released under public domain and you can use without limitations
+
 
 
 def index():
