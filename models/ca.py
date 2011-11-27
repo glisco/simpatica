@@ -76,7 +76,7 @@ try:
     from ca_defaults import PKCS12_DOWNLOAD_URL
 except ImportError:
     PKCS12_DOWNLOAD_URL = URL(r=request,c='public', f='pkcs12_export', scheme=True)
-print PKCS12_DOWNLOAD_URL
+
 
 class IS_RSA_PASS(object):
     def __init__(self, pkey_pem_string=None, pkey_pem_file=None, error_message=T('Password errata')):

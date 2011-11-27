@@ -228,13 +228,16 @@ def list_requests():
 def list_certs():
     import base64
 
-    db.ca_user_data.id.represent = lambda x: base64.urlsafe_b64encode('00%s' % x)
+    db.ca_user_cert.revoked.represent = lambda revoked, row:\
+                                        IMG(_src=URL('static', 'images/error.png' if revoked else 'images/ok.png'))
+    db.ca_user_cert.revoked.label = T('Valid')
+
     db.ca_user_data.modified_on.represent = prettydate
     rows = db((db.ca_user_data.id > 0) &
               (db.ca_user_data.id==db.ca_user_cert.ca_user_data_id) &
-              (db.ca_user_cert.certificate!=None) &
-              (db.ca_user_cert.revoked==False))\
+              (db.ca_user_cert.certificate!=None))\
               .select(db.ca_user_cert.id,
+                      db.ca_user_cert.revoked,
                       db.ca_user_data.CN,
                       db.ca_user_data.emailAddress,
                       db.ca_user_cert.modified_on)
@@ -277,3 +280,15 @@ def sign_user_cert():
         redirect(URL(c='public', f='display', args=['crt',id]))
         
     return dict(form=form)
+
+
+def revoke_cert():
+    id = request.args(0)
+
+    if id:
+        cert_row=db.ca_user_cert(int(id))
+        cert_row.update_record(revoked=True)
+
+    session.flash=T('Certificate has been revoked!')
+
+    return redirect(URL('public', 'display', args=['crt', id]))

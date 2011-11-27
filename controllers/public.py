@@ -75,10 +75,14 @@ def display():
 
     elif item=='crt' and record_id:
         rec = db.ca_user_cert[record_id]
-        content = rec.certificate
-        cert = X509.load_cert_string(content)
-        title=XML(T('Certificate owned by %s',  PRE(cert.get_subject())))
-    return dict(content=content, title=title)
+        content = DIV(rec.certificate, _class='certificate-valid')
+        cert = X509.load_cert_string(rec.certificate)
+        revoked_msg = ''
+        if rec.revoked:
+            content.attributes['_class']='certificate-revoked'
+            revoked_msg='(%s)' % SPAN(T('Revoked by CA'),_style='color: red')
+        title=XML(T('Certificate owned by %s %s',  (PRE(cert.get_subject()), revoked_msg)))
+    return dict(content=content, title=title, revoked=rec.revoked)
 
 
 def pkcs12_export():
@@ -166,9 +170,17 @@ def get_ca_cert():
 
 
 def get_ca_crl():
+    from StringIO import StringIO
     """
     Select all certificates that are not valid and make a big pem
     """
     ###TODO
-    
-    return
+
+    crl=reduce(lambda a,b: a+b, map(lambda r: r.certificate,db(db.ca_user_cert.revoked==True).select(db.ca_user_cert.certificate)))
+
+
+    response.headers['Content-Type'] = 'application/pkix-crl'
+    response.headers['Content-Disposition'] = 'attachment; filename=list.crl'
+
+
+    return streamer(StringIO(crl), len(crl))
