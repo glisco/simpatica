@@ -59,6 +59,7 @@ create_if_not_exists_dir(os.path.dirname(ca_key_path))
 create_if_not_exists_dir(ca_certs_dir)
 create_if_not_exists_dir(ca_priv_keys)
 
+#load a private module from private dir
 sys.path.insert(0,os.path.join(request.folder, 'private'))
 
 try:

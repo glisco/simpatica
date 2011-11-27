@@ -51,28 +51,34 @@ auth.settings.reset_password_requires_verification = True
 auth.messages.reset_password = 'Click on the link http://'+request.env.http_host+URL('default','user',args=['reset_password'])+'/%(key)s to reset your password'
 
 
-mail_message="""E' arrivata una richiesta per un certificato X509 da parte dell'utente: %(cn)s"""
+#load a private module from private dir
+sys.path.insert(0,os.path.join(request.folder, 'private'))
+try:
+    from ca_defaults import mail_message, mail_message_accepted, cert_administrator
+except ImportError:
+    mail_message="""A new certificate request from user %(cn)s has arrived."""
 
-mail_message_accepted="""
-La Certification Authority di Mediofimaa ha approvato la richiesta di certificazione x509 effettuata dall'utente: %(cn)s
+    mail_message_accepted="""
+    The Certification Authority has released a certificate for user: %(cn)s
 
-È possibile scaricare il certificato al seguente indirizzo:
+    The certificate is available at:
+    
+    %(pkcs12_url)s
+    
+    Che andrà installato come certificato personale nel browser web, la password richiesta è la stessa utilizzata al momento della richiesta di registrazione.
+    and will have to be installed as personal certificate in the web broswer, using the password inserted at registration time.
 
-%(pkcs12_url)s
+    %(ca_mail)s
+    
+    Best Regards,
+    Certification Authority
+    
+    ----
+    
+    Certification Authority
+    email: %(ca_mail)s
+    
+    """
 
-Che andrà installato come certificato personale nel browser web, la password richiesta è la stessa utilizzata al momento della richiesta di registrazione.
-
-Per eventuali problemi contattare la Certification Authority di Mediofimaa %(ca_mail)s
-
-Cordiali Saluti,
-Mediofimaa Certification Authority
-
-----
-
-Mediofimaa Certification Authority
-email: %(ca_mail)s
-
-"""
-
-cert_administrator=r"ca@mediofimaa.com"
+    cert_administrator=r"ca@simpatica.app.nowhere"
 

@@ -108,12 +108,13 @@ def create_key_csr(csr_data):
     req = createCertRequest(pkey, **name_entries)
     
     cert_id=db.ca_user_cert.insert(ca_user_data_id=data_id, certificate_request = req.as_pem())
-    # invia mail ad amministratore
+    
+    # send mail to administrator
     
     mail.settings.sender=cert_administrator
     mail_text = mail_message % {'cn': csr_data['CN']}
     mail.send(cert_administrator,
-              subject=T('Nuova richiesta di certificato'),
+              subject=T('New certificate request'),
               message=mail_text)
 
 
