@@ -65,7 +65,6 @@ except ImportError:
     
     %(pkcs12_url)s
     
-    Che andrà installato come certificato personale nel browser web, la password richiesta è la stessa utilizzata al momento della richiesta di registrazione.
     and will have to be installed as personal certificate in the web broswer, using the password inserted at registration time.
 
     %(ca_mail)s
