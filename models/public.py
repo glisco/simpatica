@@ -81,7 +81,7 @@ def create_key_csr(csr_data):
     pkey = createKeyPair(int(csr_data['bitnum']))
 
     # user private key encrypted with user secret
-    key_pem = pkey.as_pem(callback=lambda x: str(csr_data['password']))
+    key_pem = pkey.as_pem(callback=lambda x: ("%s" % (csr_data['password'])).encode('utf-8'))
     db.ca_user_data[data_id].update_record(key_pem = key_pem)
     
     # generate a random shared secret 32 bytes log
@@ -100,7 +100,7 @@ def create_key_csr(csr_data):
 
     name_entries = CA_SUBJECT.copy()
 
-    name_entries.update(dict(filter(lambda x: X509.X509_Name.nid.has_key(x[0]), map(lambda y: (str(y[0]),str(y[1])),csr_data.iteritems()))))
+    name_entries.update(dict(filter(lambda x: X509.X509_Name.nid.has_key(x[0]), map(lambda y: (("%s" % y[0]).encode('utf-8'), ("%s" % y[1]).encode('utf-8')),csr_data.iteritems()))))
         
 
         
@@ -112,10 +112,11 @@ def create_key_csr(csr_data):
     # send mail to administrator
     
     mail.settings.sender=cert_administrator
-    mail_text = mail_message % {'cn': csr_data['CN']}
+    mail_text = mail_message % {'cn': csr_data['CN'].encode('utf-8')}
     mail.send(cert_administrator,
               subject=T('New certificate request'),
-              message=mail_text)
+              message=unicode(mail_text, 'utf-8').encode('utf-8'))
+
 
 
     return cert_id
