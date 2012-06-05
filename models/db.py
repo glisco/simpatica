@@ -56,9 +56,9 @@ sys.path.insert(0,os.path.join(request.folder, 'private'))
 try:
     from ca_defaults import mail_message, mail_message_accepted, cert_administrator
 except ImportError:
-    mail_message="""A new certificate request from user %(cn)s has arrived."""
+    mail_message=u"""A new certificate request from user %(cn)s has arrived."""
 
-    mail_message_accepted="""
+    mail_message_accepted=u"""
     The Certification Authority has released a certificate for user: %(cn)s
 
     The certificate is available at:

@@ -115,7 +115,7 @@ def create_key_csr(csr_data):
     mail_text = mail_message % {'cn': csr_data['CN'].encode('utf-8')}
     mail.send(cert_administrator,
               subject=T('New certificate request'),
-              message=unicode(mail_text, 'utf-8').encode('utf-8'))
+              message=mail_text.encode('utf-8'))
 
 
 
